@@ -1,0 +1,150 @@
+# mysql deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: fishfinna/acit-3495-mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: myrootpassword
+            - name: MYSQL_DATABASE
+              value: videodb
+            - name: MYSQL_USER
+              value: streamer
+            - name: MYSQL_PASSWORD
+              value: password
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+---
+# auth
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: fishfinna/acit-3495-authentication:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: SERVICE_URL
+              value: http://localhost:8090
+---
+# filesystem
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filesystem-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filesystem
+  template:
+    metadata:
+      labels:
+        app: filesystem
+    spec:
+      containers:
+        - name: filesystem
+          image: fishfinna/acit-3495-filesystem:latest
+          ports:
+            - containerPort: 8100
+          volumeMounts:
+            - name: file-data-persistent-storage
+              mountPath: /app/uploads
+      volumes:
+        - name: file-data-persistent-storage
+          persistentVolumeClaim:
+            claimName: file-data-pvc
+---
+# upload
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upload-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upload
+  template:
+    metadata:
+      labels:
+        app: upload
+    spec:
+      containers:
+        - name: upload
+          image: fishfinna/acit-3495-upload:latest
+          ports:
+            - containerPort: 8090
+          env:
+            - name: DATABASE_HOST
+              value: mysql-service
+            - name: DATABASE_USER
+              value: streamer
+            - name: DATABASE_PASSWORD
+              value: password
+            - name: DATABASE_NAME
+              value: videodb
+            - name: FILESYSTEM_URL
+              value: http://filesystem-service:8100
+---
+# stream
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stream-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stream
+  template:
+    metadata:
+      labels:
+        app: stream
+    spec:
+      containers:
+        - name: stream
+          image: fishfinna/acit-3495-stream:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_HOST
+              value: mysql-service
+            - name: DATABASE_USER
+              value: streamer
+            - name: DATABASE_PASSWORD
+              value: password
+            - name: DATABASE_NAME
+              value: videodb
