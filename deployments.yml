@@ -1,10 +1,11 @@
 # mysql deployment
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: mysql-deployment
+  name: mysql-statefulset
 spec:
-  replicas: 1
+  serviceName: mysql-service
+  replicas: 10
   selector:
     matchLabels:
       app: mysql
@@ -61,11 +62,12 @@ spec:
 ---
 # filesystem
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: filesystem-deployment
+  name: filesystem-statefulset
 spec:
-  replicas: 1
+  serviceName: filesystem-service
+  replicas: 3
   selector:
     matchLabels:
       app: filesystem
@@ -118,6 +120,9 @@ spec:
               value: videodb
             - name: FILESYSTEM_URL
               value: http://filesystem-service:8100
+            - name: HOST
+              value: localhost
+
 ---
 # stream
 apiVersion: apps/v1
