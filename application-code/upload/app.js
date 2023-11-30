@@ -7,8 +7,8 @@ const multer = require("multer");
 const FormData = require("form-data");
 const upload = multer();
 const port = 8090;
-const fileSystemURL = process.env.FILESYSTEM_URL;
-const host = process.env.HOST;
+const fileSystemURL = process.env.FILESYSTEM_URL || "http://localhost:8100";
+const host = process.env.HTTP_HOST || "localhost";
 app.use(express.static(path.join(__dirname, "/public")));
 
 // database connection

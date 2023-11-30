@@ -5,7 +5,7 @@ metadata:
   name: mysql-statefulset
 spec:
   serviceName: mysql-service
-  replicas: 10
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
@@ -67,7 +67,7 @@ metadata:
   name: filesystem-statefulset
 spec:
   serviceName: filesystem-service
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: filesystem

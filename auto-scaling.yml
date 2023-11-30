@@ -9,7 +9,7 @@ spec:
     kind: Deployment
     name: auth-deployment
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 20
   targetCPUUtilizationPercentage: 20
 ---
 # upload
@@ -23,7 +23,7 @@ spec:
     kind: Deployment
     name: upload-deployment
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 20
   targetCPUUtilizationPercentage: 20
 ---
 # stream
@@ -37,5 +37,5 @@ spec:
     kind: Deployment
     name: stream-deployment
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 20
   targetCPUUtilizationPercentage: 20
