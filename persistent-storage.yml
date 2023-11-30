@@ -20,7 +20,7 @@ spec:
   accessModes:
     - ReadOnlyMany
   hostPath:
-    path: /mysql
+    path: /var/log/mysql
 ---
 # filesystem
 apiVersion: v1
@@ -44,4 +44,4 @@ spec:
   accessModes:
     - ReadOnlyMany
   hostPath:
-    path: /acit-3495-filesystem
+    path: /var/log/filesystem
