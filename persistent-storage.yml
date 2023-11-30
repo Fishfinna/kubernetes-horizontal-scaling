@@ -1,11 +1,11 @@
-#mysql
+# mysql
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadOnlyMany
   resources:
     requests:
       storage: 1Gi
@@ -18,18 +18,18 @@ spec:
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadOnlyMany
   hostPath:
     path: /mysql
 ---
-#filesystem
+# filesystem
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: file-data-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadOnlyMany
   resources:
     requests:
       storage: 1Gi
@@ -42,6 +42,6 @@ spec:
   capacity:
     storage: 1Gi
   accessModes:
-    - ReadWriteOnce
+    - ReadOnlyMany
   hostPath:
     path: /acit-3495-filesystem
