@@ -71,9 +71,9 @@ spec:
 ---
 # filesystem
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: filesystem-statefulset
+  name: filesystem-deployment
 spec:
   serviceName: filesystem-service
   replicas: 1
@@ -102,11 +102,11 @@ spec:
           volumeMounts:
             - name: filesystem-persistent-storage
               mountPath: /app/uploads
-      volumes:
-        - name: filesystem-persistent-storage
-          persistentVolumeClaim:
-            claimName: file-data-pvc
-
+  volumes:
+    - name: filesystem-persistent-storage
+      persistentVolumeClaim:
+        claimName: file-data-pvc
+        
 ---
 # upload
 apiVersion: apps/v1
