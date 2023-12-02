@@ -19,27 +19,28 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: topology.kubernetes.io/zone
+              - key: failure-domain.beta.kubernetes.io/zone
                 operator: In
                 values:
                 - us-central1-a
       containers:
-      - name: mysql
-        image: fishfinna/acit-3495-mysql:latest
-        ports:
-        - containerPort: 3306
-        envFrom:
-        - configMapRef:
-            name: env-configmap
-        - secretRef:
-            name: password-secret
-        volumeMounts:
+        - name: mysql
+          image: fishfinna/acit-3495-mysql:latest
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: env-configmap
+            - secretRef:
+                name: password-secret
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
         - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
-  volumes:
-  - name: mysql-persistent-storage
-    persistentVolumeClaim:
-      claimName: mysql-pvc
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+
 ---
 # auth
 apiVersion: apps/v1
@@ -84,6 +85,15 @@ spec:
       labels:
         app: filesystem
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: failure-domain.beta.kubernetes.io/zone
+                operator: In
+                values:
+                - us-central1-a
       containers:
         - name: filesystem
           image: fishfinna/acit-3495-filesystem:latest
