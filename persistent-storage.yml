@@ -5,10 +5,10 @@ metadata:
   name: mysql-pvc
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 5Gi
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -16,11 +16,15 @@ metadata:
   name: mysql-pv
 spec:
   capacity:
-    storage: 1Gi
+    storage: 5Gi
   accessModes:
-    - ReadOnlyMany
-  hostPath:
-    path: /mnt/data/mysql
+    - ReadWriteOnce
+  claimRef:
+    namespace: default
+    name: mysql-storage
+  gcePersistentDisk:
+    pdName: gke-pv
+    fsType: ext4
 ---
 # filesystem
 apiVersion: v1
@@ -29,10 +33,10 @@ metadata:
   name: file-data-pvc
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -40,8 +44,12 @@ metadata:
   name: file-data-pv
 spec:
   capacity:
-    storage: 1Gi
+    storage: 10Gi
   accessModes:
-    - ReadOnlyMany
-  hostPath:
-    path: /mnt/data/filesystem
+    - ReadWriteOnce
+  claimRef:
+    namespace: default
+    name: filesystem-storage
+  gcePersistentDisk:
+    pdName: gke-pv
+    fsType: ext4
