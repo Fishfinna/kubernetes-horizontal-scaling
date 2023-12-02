@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-pv
+  name: sql-pv
 spec:
   storageClassName: "standard"
   capacity:
@@ -45,7 +45,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: files-pv
+  name: file-pv
 spec:
   storageClassName: "standard"
   capacity:
