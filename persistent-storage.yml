@@ -23,7 +23,7 @@ spec:
     namespace: default
     name: mysql-storage
   gcePersistentDisk:
-    pdName: gke-pv
+    pdName: mysql-pv-disk
     fsType: ext4
 ---
 # filesystem
@@ -51,5 +51,7 @@ spec:
     namespace: default
     name: filesystem-storage
   gcePersistentDisk:
-    pdName: gke-pv
+    pdName: files-pv-disk
     fsType: ext4
+
+
