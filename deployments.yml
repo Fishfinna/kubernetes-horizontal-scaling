@@ -14,24 +14,32 @@ spec:
       labels:
         app: mysql
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: topology.kubernetes.io/zone
+                operator: In
+                values:
+                - us-central1-a
       containers:
-        - name: mysql
-          image: fishfinna/acit-3495-mysql:latest
-          ports:
-            - containerPort: 3306
-          envFrom:
-            - configMapRef:
-                name: env-configmap
-            - secretRef:
-                name: password-secret
-          volumeMounts:
-            - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql
-      volumes:
+      - name: mysql
+        image: fishfinna/acit-3495-mysql:latest
+        ports:
+        - containerPort: 3306
+        envFrom:
+        - configMapRef:
+            name: env-configmap
+        - secretRef:
+            name: password-secret
+        volumeMounts:
         - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: mysql-pvc
-
+          mountPath: /var/lib/mysql
+  volumes:
+  - name: mysql-persistent-storage
+    persistentVolumeClaim:
+      claimName: mysql-pvc
 ---
 # auth
 apiVersion: apps/v1
@@ -62,9 +70,9 @@ spec:
 ---
 # filesystem
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: filesystem-statefulset
+  name: filesystem-deployment
 spec:
   serviceName: filesystem-service
   replicas: 1
@@ -76,19 +84,27 @@ spec:
       labels:
         app: filesystem
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: topology.kubernetes.io/zone
+                operator: In
+                values:
+                - us-central1-a
       containers:
-        - name: filesystem
-          image: fishfinna/acit-3495-filesystem:latest
-          ports:
-            - containerPort: 8100
-          volumeMounts:
-            - name: filesystem-persistent-storage
-              mountPath: /app/uploads
-      volumes:
+      - name: filesystem
+        image: fishfinna/acit-3495-filesystem:latest
+        ports:
+        - containerPort: 8100
+        volumeMounts:
         - name: filesystem-persistent-storage
-          persistentVolumeClaim:
-            claimName: file-data-pvc
-
+          mountPath: /app/uploads
+  volumes:
+  - name: filesystem-persistent-storage
+    persistentVolumeClaim:
+      claimName: file-data-pvc
 ---
 # upload
 apiVersion: apps/v1
