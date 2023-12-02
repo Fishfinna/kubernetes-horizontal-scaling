@@ -1,9 +1,10 @@
-# mysql
+# MySQL
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
 spec:
+  storageClassName: "standard"
   accessModes:
     - ReadWriteOnce
   resources:
@@ -15,6 +16,7 @@ kind: PersistentVolume
 metadata:
   name: mysql-pv
 spec:
+  storageClassName: "standard"
   capacity:
     storage: 5Gi
   accessModes:
@@ -22,17 +24,18 @@ spec:
   claimRef:
     namespace: default
     name: mysql-pvc
-  gcePersistentDisk:
-    pdName: mysql-pv-disk
+  csi:
+    driver: pd.csi.storage.gke.io
+    volumeHandle: mysql-pv-disk
     fsType: ext4
-    zone: us-west1-b
 ---
-# filesystem
+# Filesystem
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: file-data-pvc
 spec:
+  storageClassName: "standard"
   accessModes:
     - ReadWriteOnce
   resources:
@@ -44,6 +47,7 @@ kind: PersistentVolume
 metadata:
   name: file-data-pv
 spec:
+  storageClassName: "standard"
   capacity:
     storage: 10Gi
   accessModes:
@@ -51,7 +55,7 @@ spec:
   claimRef:
     namespace: default
     name: file-data-pvc
-  gcePersistentDisk:
-    pdName: files-pv-disk
+  csi:
+    driver: pd.csi.storage.gke.io
+    volumeHandle: files-pv-disk
     fsType: ext4
-    zone: us-west1-b
