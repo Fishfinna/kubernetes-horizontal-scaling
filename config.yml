@@ -11,7 +11,7 @@ data:
   DATABASE_NAME: videodb
   DATABASE_USER: streamer
   FILESYSTEM_URL: http://filesystem-service:8100
-  PUBLIC_FILESYSTEM_URL: localhost
+  PUBLIC_FILESYSTEM_IP: localhost
 ---
 # secrets
 apiVersion: v1
