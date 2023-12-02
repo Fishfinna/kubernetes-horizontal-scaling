@@ -21,11 +21,11 @@ spec:
     - ReadWriteOnce
   claimRef:
     namespace: default
-    name: mysql-storage
+    name: mysql-pvc
   gcePersistentDisk:
     pdName: mysql-pv-disk
     fsType: ext4
----
+
 # filesystem
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -49,9 +49,7 @@ spec:
     - ReadWriteOnce
   claimRef:
     namespace: default
-    name: filesystem-storage
+    name: file-data-pvc
   gcePersistentDisk:
     pdName: files-pv-disk
     fsType: ext4
-
-
