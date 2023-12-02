@@ -75,7 +75,6 @@ kind: Deployment
 metadata:
   name: filesystem-deployment
 spec:
-  serviceName: filesystem-service
   replicas: 1
   selector:
     matchLabels:
