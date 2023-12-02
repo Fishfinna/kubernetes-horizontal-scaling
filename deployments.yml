@@ -70,9 +70,9 @@ spec:
 ---
 # filesystem
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: filesystem-deployment
+  name: filesystem-statefulset
 spec:
   serviceName: filesystem-service
   replicas: 1
