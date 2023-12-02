@@ -106,7 +106,6 @@ spec:
     - name: filesystem-persistent-storage
       persistentVolumeClaim:
         claimName: file-data-pvc
-        
 ---
 # upload
 apiVersion: apps/v1
