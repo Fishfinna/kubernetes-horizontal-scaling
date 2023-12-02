@@ -101,10 +101,10 @@ spec:
           volumeMounts:
             - name: filesystem-persistent-storage
               mountPath: /app/uploads
-  volumes:
-    - name: filesystem-persistent-storage
-      persistentVolumeClaim:
-        claimName: file-data-pvc
+      volumes:
+        - name: filesystem-persistent-storage
+          persistentVolumeClaim:
+            claimName: file-data-pvc
 ---
 # upload
 apiVersion: apps/v1
