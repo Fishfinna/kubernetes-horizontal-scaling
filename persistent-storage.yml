@@ -26,7 +26,7 @@ spec:
     name: mysql-pvc
   csi:
     driver: pd.csi.storage.gke.io
-    volumeHandle: mysql-pv-disk
+    volumeHandle: projects/ACIT-3495/zones/us-west1-b/disks/mysql-pv-disk
     fsType: ext4
 ---
 # Filesystem
@@ -57,5 +57,5 @@ spec:
     name: file-data-pvc
   csi:
     driver: pd.csi.storage.gke.io
-    volumeHandle: files-pv-disk
+    volumeHandle: projects/ACIT-3495/zones/us-west1-b/disks/files-pv-disk
     fsType: ext4
