@@ -10,7 +10,7 @@ spec:
     name: auth-deployment
   minReplicas: 1
   maxReplicas: 20
-  targetCPUUtilizationPercentage: 2
+  targetCPUUtilizationPercentage: 5
 ---
 # upload
 apiVersion: autoscaling/v1
@@ -24,7 +24,7 @@ spec:
     name: upload-deployment
   minReplicas: 1
   maxReplicas: 20
-  targetCPUUtilizationPercentage: 2
+  targetCPUUtilizationPercentage: 5
 ---
 # stream
 apiVersion: autoscaling/v1
@@ -38,7 +38,7 @@ spec:
     name: stream-deployment
   minReplicas: 1
   maxReplicas: 20
-  targetCPUUtilizationPercentage: 2
+  targetCPUUtilizationPercentage: 5
 ---
 # filesystem
 apiVersion: autoscaling/v1
@@ -52,4 +52,4 @@ spec:
     name: filesystem-deployment
   minReplicas: 1
   maxReplicas: 20
-  targetCPUUtilizationPercentage: 2
+  targetCPUUtilizationPercentage: 5
