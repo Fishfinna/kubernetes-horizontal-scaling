@@ -25,7 +25,8 @@ spec:
   gcePersistentDisk:
     pdName: mysql-pv-disk
     fsType: ext4
-
+    zone: us-west1-b
+---
 # filesystem
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -53,3 +54,4 @@ spec:
   gcePersistentDisk:
     pdName: files-pv-disk
     fsType: ext4
+    zone: us-west1-b
