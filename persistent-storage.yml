@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: sql-pv
+  name: mysql-pv
 spec:
   storageClassName: "standard"
   capacity:
@@ -14,7 +14,7 @@ spec:
     name: mysql-pvc
   csi:
     driver: pd.csi.storage.gke.io
-    volumeHandle: projects/acit-3495-406722/zones/us-west1-b/disks/mysql-pv-disk
+    volumeHandle: projects/acit-3495-406722/zones/us-central1-b/disks/mysql-pv-disk
     fsType: ext4
 ---
 apiVersion: v1
@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: files-pv
+  name: file-data-pv
 spec:
   storageClassName: "standard"
   capacity:
@@ -45,7 +45,7 @@ spec:
     name: file-data-pvc
   csi:
     driver: pd.csi.storage.gke.io
-    volumeHandle: projects/acit-3495-406722/zones/us-west1-b/disks/files-pv-disk
+    volumeHandle: projects/acit-3495-406722/zones/us-central1-b/disks/files-pv-disk
     fsType: ext4
 ---
 apiVersion: v1
