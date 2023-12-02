@@ -39,7 +39,7 @@ spec:
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteOnly
+    - ReadWriteOnce
   claimRef:
     namespace: default
     name: file-data-pvc
@@ -55,7 +55,7 @@ metadata:
 spec:
   storageClassName: "standard"
   accessModes:
-    - ReadWriteOnly
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
