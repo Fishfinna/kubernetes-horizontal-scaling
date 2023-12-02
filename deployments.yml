@@ -64,7 +64,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: filesystem-deployment
+  name: filesystem-statefulset
 spec:
   serviceName: filesystem-service
   replicas: 1
@@ -81,9 +81,13 @@ spec:
           image: fishfinna/acit-3495-filesystem:latest
           ports:
             - containerPort: 8100
-          envFrom:
-            - configMapRef:
-                name: env-configmap
+          volumeMounts:
+            - name: filesystem-persistent-storage
+              mountPath: /app/uploads
+      volumes:
+        - name: filesystem-persistent-storage
+          persistentVolumeClaim:
+            claimName: file-data-pvc
 
 ---
 # upload
