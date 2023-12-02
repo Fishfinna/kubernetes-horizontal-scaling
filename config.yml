@@ -1,0 +1,25 @@
+# configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-configmap
+data:
+  MYSQL_DATABASE: videodb
+  MYSQL_USER: streamer
+  SERVICE_URL: http://localhost:8090
+  DATABASE_HOST: mysql-service
+  DATABASE_NAME: videodb
+  DATABASE_USER: streamer
+  FILESYSTEM_URL: http://filesystem-service:8100
+  PUBLIC_FILESYSTEM_URL: localhost
+---
+# secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: password-secret
+type: Opaque
+data:
+  MYSQL_ROOT_PASSWORD: bXlyb290cGFzc3dvcmQ=
+  MYSQL_PASSWORD: cGFzc3dvcmQ=
+  DATABASE_PASSWORD: cGFzc3dvcmQ=

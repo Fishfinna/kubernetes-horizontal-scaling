@@ -8,7 +8,7 @@ const FormData = require("form-data");
 const upload = multer();
 const port = 8090;
 const fileSystemURL = process.env.FILESYSTEM_URL || "http://localhost:8100";
-const host = process.env.HTTP_HOST || "localhost";
+const public_filesystem_host = process.env.PUBLIC_FILESYSTEM_URL || "localhost";
 app.use(express.static(path.join(__dirname, "/public")));
 
 // database connection
@@ -54,7 +54,7 @@ const db = createDBConnection();
 app.post("/upload", upload.array("videos"), async (req, res) => {
   const insertQueries = req.files.map((file) => {
     const title = file.originalname;
-    const path = `http://${host}:8100/uploads/${title}`;
+    const path = `http://${public_filesystem_host}:8100/uploads/${title}`;
 
     const insertQuery = "INSERT INTO videos (title, path) VALUES (?, ?)";
     const insertValues = [title, path];

@@ -1,4 +1,4 @@
-# mysql deployment
+# mysql
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -19,15 +19,11 @@ spec:
           image: fishfinna/acit-3495-mysql:latest
           ports:
             - containerPort: 3306
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: myrootpassword
-            - name: MYSQL_DATABASE
-              value: videodb
-            - name: MYSQL_USER
-              value: streamer
-            - name: MYSQL_PASSWORD
-              value: password
+          envFrom:
+            - configMapRef:
+                name: env-configmap
+            - secretRef:
+                name: password-secret
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
@@ -35,6 +31,7 @@ spec:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
+
 ---
 # auth
 apiVersion: apps/v1
@@ -56,15 +53,18 @@ spec:
           image: fishfinna/acit-3495-authentication:latest
           ports:
             - containerPort: 80
-          env:
-            - name: SERVICE_URL
-              value: http://localhost:8090
+          envFrom:
+            - configMapRef:
+                name: env-configmap
+            - secretRef:
+                name: password-secret
+
 ---
 # filesystem
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: filesystem-statefulset
+  name: filesystem-deployment
 spec:
   serviceName: filesystem-service
   replicas: 1
@@ -81,13 +81,10 @@ spec:
           image: fishfinna/acit-3495-filesystem:latest
           ports:
             - containerPort: 8100
-          volumeMounts:
-            - name: file-data-persistent-storage
-              mountPath: /app/uploads
-      volumes:
-        - name: file-data-persistent-storage
-          persistentVolumeClaim:
-            claimName: file-data-pvc
+          envFrom:
+            - configMapRef:
+                name: env-configmap
+
 ---
 # upload
 apiVersion: apps/v1
@@ -109,19 +106,11 @@ spec:
           image: fishfinna/acit-3495-upload:latest
           ports:
             - containerPort: 8090
-          env:
-            - name: DATABASE_HOST
-              value: mysql-service
-            - name: DATABASE_USER
-              value: streamer
-            - name: DATABASE_PASSWORD
-              value: password
-            - name: DATABASE_NAME
-              value: videodb
-            - name: FILESYSTEM_URL
-              value: http://filesystem-service:8100
-            - name: HOST
-              value: localhost
+          envFrom:
+            - configMapRef:
+                name: env-configmap
+            - secretRef:
+                name: password-secret
 
 ---
 # stream
@@ -144,12 +133,8 @@ spec:
           image: fishfinna/acit-3495-stream:latest
           ports:
             - containerPort: 8080
-          env:
-            - name: DATABASE_HOST
-              value: mysql-service
-            - name: DATABASE_USER
-              value: streamer
-            - name: DATABASE_PASSWORD
-              value: password
-            - name: DATABASE_NAME
-              value: videodb
+          envFrom:
+            - configMapRef:
+                name: env-configmap
+            - secretRef:
+                name: password-secret
