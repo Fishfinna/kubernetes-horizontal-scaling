@@ -125,7 +125,7 @@ spec:
     spec:
       containers:
         - name: upload
-          image: fishfinna/acit-3495-upload:latest
+          image: fishfinna/acit-3495-upload:v2
           ports:
             - containerPort: 8090
           envFrom:
