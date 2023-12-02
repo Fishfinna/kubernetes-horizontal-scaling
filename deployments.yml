@@ -84,27 +84,19 @@ spec:
       labels:
         app: filesystem
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: topology.kubernetes.io/zone
-                operator: In
-                values:
-                - us-central1-a
       containers:
-      - name: filesystem
-        image: fishfinna/acit-3495-filesystem:latest
-        ports:
-        - containerPort: 8100
-        volumeMounts:
+        - name: filesystem
+          image: fishfinna/acit-3495-filesystem:latest
+          ports:
+            - containerPort: 8100
+          volumeMounts:
+            - name: filesystem-persistent-storage
+              mountPath: /app/uploads
+      volumes:
         - name: filesystem-persistent-storage
-          mountPath: /app/uploads
-  volumes:
-  - name: filesystem-persistent-storage
-    persistentVolumeClaim:
-      claimName: file-data-pvc
+          persistentVolumeClaim:
+            claimName: file-data-pvc
+
 ---
 # upload
 apiVersion: apps/v1
