@@ -6,12 +6,12 @@ metadata:
 data:
   MYSQL_DATABASE: videodb
   MYSQL_USER: streamer
-  SERVICE_URL: http://34.118.238.120:8090
+  SERVICE_URL: http://104.198.46.1:8090
   DATABASE_HOST: mysql-service
   DATABASE_NAME: videodb
   DATABASE_USER: streamer
   FILESYSTEM_URL: http://filesystem-service:8100
-  PUBLIC_FILESYSTEM_IP: "34.118.231.68"
+  PUBLIC_FILESYSTEM_IP: "34.29.75.227"
 ---
 # secrets
 apiVersion: v1
