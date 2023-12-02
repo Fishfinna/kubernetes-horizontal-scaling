@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: sql-pv
+  name: database-pv
 spec:
   storageClassName: "standard"
   capacity:
@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: file-pv
+  name: files-pv
 spec:
   storageClassName: "standard"
   capacity:
